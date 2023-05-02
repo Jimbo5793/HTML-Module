@@ -7,6 +7,8 @@ Was supposed to name it HTML Module work but I named it Second year and now idk 
 
 If you're reading this, that's great. 
 
+<!-----With nice UI the website is great but still we need to do a lot but so far its great------->
+
 Problems so far:
 
 - How to formulate an interactive grid and not a blank canvas for A* task
