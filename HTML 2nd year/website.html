@@ -1,4 +1,5 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -6,6 +7,15 @@
     <title>A*</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
+<style>
+    canvas {
+        border: 1px solid black;
+        width: 400px;
+        height: 400px;
+    }
+
+</style>
 
 <body>
     <h1>
@@ -25,7 +35,36 @@
         set a starting point and an ending point. The program
         will find a route out!
     </p>
-    
-    <script src="script.js"></script>
+
+    <canvas id="canvas"></canvas>
+
+	<br>
+
+	<button id="find-path-button">
+        Find Path
+    </button>
+
+	<button id="clear-canvas-button">
+        Clear Canvas
+    </button>
+
+	<label for="heuristic-select">
+        Heuristic:
+    </label>
+
+	<select id="heuristic-select">
+
+		<option value="euclidean">
+            Euclidean
+        </option>
+
+		<option value="manhattan">
+            Manhattan
+        </option>
+
+	</select>
+
+	<script src="script.js"></script>
+
 </body>
 </html>
