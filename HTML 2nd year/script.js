@@ -52,4 +52,9 @@ function findPath() {
         alert("Please set start and end markers.");
         return;
     }
+    
+}
 
+document.getElementById("find-path-button").addEventListener("click", findPath);
+
+document.getElementById("clear-canvas-button").addEventListener("click", clearCanvas);
