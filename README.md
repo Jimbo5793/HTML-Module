@@ -13,7 +13,20 @@ Problems so far:
 
 - Create dedicated landing page
 
-- How to formulate grid for A* task
+- How to formulate a grid and not a blank canvas for A* task
+
+(Hamza)
+About work on JS file:
+
+It is only a basic shell so far.
+
+To do:
+
+- add function DrawPath
+
+- Add EventListener for click
+
+- add algo for path finding
 
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣴⡦⠿⠛⢚⣂⠀⠉⠐⠛⠳⠶⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢔⣿⣿⠅⠀⣀⠀⠻⠟⠃⠒⠒⠦⣤⡀⠀⠉⠻⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
