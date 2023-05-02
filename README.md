@@ -1,7 +1,7 @@
 # HTML-Module
 HTML module work
 
-Dream Team: Puthen Veede Aswadh and Hamza Rasheed Chattha
+Dream Team: Aswadh Puthen Veede and Hamza Rasheed Chattha
 
 Was supposed to name it HTML Module work but I named it Second year and now idk how to change it
 
