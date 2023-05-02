@@ -9,13 +9,9 @@ If you're reading this, that's great.
 
 Problems so far:
 
-- How to make multiple pages
-
-- Create dedicated landing page
-
 - How to formulate a grid and not a blank canvas for A* task
 
-About work on JS file:
+About work on JS file for A*:
 
 It is only a basic shell so far.
 
@@ -25,7 +21,9 @@ To do:
 
 - Add EventListener for click
 
-- add algo for path finding
+- add algo for A*
+
+- all the other algos
 
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣴⡦⠿⠛⢚⣂⠀⠉⠐⠛⠳⠶⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢔⣿⣿⠅⠀⣀⠀⠻⠟⠃⠒⠒⠦⣤⡀⠀⠉⠻⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
