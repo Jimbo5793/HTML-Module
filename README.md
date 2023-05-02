@@ -7,6 +7,14 @@ Was supposed to name it HTML Module work but I named it Second year and now idk 
 
 If you're reading this, that's great
 
+Problems so far:
+
+- How to make multiple pages
+
+- Create dedicated landing page
+
+- How to formulate grid for A* task
+
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣴⡦⠿⠛⢚⣂⠀⠉⠐⠛⠳⠶⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢔⣿⣿⠅⠀⣀⠀⠻⠟⠃⠒⠒⠦⣤⡀⠀⠉⠻⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣽⠿⡉⠁⠠⣴⣧⠀⠀⠀⠀⠀⠀⠀⠀⢸⣲⡆⢀⣬⡻⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
