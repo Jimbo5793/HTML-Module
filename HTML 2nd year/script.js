@@ -38,3 +38,18 @@ function clearCanvas() {
     start = null;
     end = null;
 }
+
+function euclideanHeuristic(x1, y1, x2, y2) {
+    return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+}
+
+function manhattanHeuristic(x1, y1, x2, y2) {
+    return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+}
+
+function findPath() {
+    if (!start || !end) {
+        alert("Please set start and end markers.");
+        return;
+    }
+
