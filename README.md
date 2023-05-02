@@ -15,7 +15,6 @@ Problems so far:
 
 - How to formulate a grid and not a blank canvas for A* task
 
-(Hamza)
 About work on JS file:
 
 It is only a basic shell so far.
