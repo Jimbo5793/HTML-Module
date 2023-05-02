@@ -9,7 +9,7 @@ If you're reading this, that's great.
 
 Problems so far:
 
-- How to formulate a grid and not a blank canvas for A* task
+- How to formulate an interactive grid and not a blank canvas for A* task
 
 About work on JS file for A*:
 
