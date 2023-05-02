@@ -55,6 +55,3 @@ function findPath() {
     
 }
 
-document.getElementById("find-path-button").addEventListener("click", findPath);
-
-document.getElementById("clear-canvas-button").addEventListener("click", clearCanvas);
