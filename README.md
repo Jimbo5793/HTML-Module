@@ -15,10 +15,6 @@ Problems so far:
 
 - How to implement canvas for clusterization
 
-About work on JS file for A*:
-
-It is only a basic shell so far.
-
 To do:
 
 - use bootstraps effectively 
