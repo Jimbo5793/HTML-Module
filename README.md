@@ -13,7 +13,7 @@ Problems so far:
 
 - LEARN HOW TO SUMMON DEMON TO HELP WITH CODE. Prepared to offer soul to stack overflow gods for some support.
 
-- How to implement canvas for clusterization
+- How to explain code for clusterization. It was "borrowed" from numerous sources.
 
 To do:
 
