@@ -7,11 +7,13 @@ Was supposed to name it HTML Module work but I named it Second year and now idk 
 
 If you're reading this, that's great. 
 
-<!-----With nice UI the website is great but still we need to do a lot but so far its great------->
+With nice UI the website is great but still we need to do a lot but so far its great
 
 Problems so far:
 
-- How to formulate an interactive grid and not a blank canvas for A* task
+- LEARN HOW TO SUMMON DEMON TO HELP WITH CODE. Prepared to offer soul to stack overflow gods for some support.
+
+- How to implement canvas for clusterization
 
 About work on JS file for A*:
 
@@ -19,13 +21,14 @@ It is only a basic shell so far.
 
 To do:
 
-- add function DrawPath
+- use bootstraps effectively 
 
-- Add EventListener for click
+- fix algo for cluster
 
-- add algo for A*
+- fix UI for A*
 
-- all the other algos
+- pray we finish genetic on time.
+
 
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣴⡦⠿⠛⢚⣂⠀⠉⠐⠛⠳⠶⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢔⣿⣿⠅⠀⣀⠀⠻⠟⠃⠒⠒⠦⣤⡀⠀⠉⠻⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
