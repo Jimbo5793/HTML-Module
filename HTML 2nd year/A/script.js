@@ -1,21 +1,20 @@
 		///////////LISTENERS
         document.addEventListener('resize',resizeCanvas);
-        ////////////END
+        ////////////LISTENERS END
+
         ////////VARIABLES
         var myVar = setInterval(runAlways,75);
         window.onload = init;
         var c = document.getElementById("pathfindcanvas");
         var ctx = c.getContext("2d");
-        /////////END
+        /////////VARIABLES END
+
         /////////CANVAS LISTENERS
         c.addEventListener('mousemove',mouseMove);
         c.addEventListener('mousedown',mouseDown);
         c.addEventListener('mouseup',mouseUp);
         /////////END
-        ////NODE
-    
-    
-        ////END
+
         //////OBJECTS
         var map;
         var mapNodeTypes = {
@@ -40,8 +39,6 @@
         }
         var startNode,endNode;
     
-        //////END
-        //////DRAW FUNCTIONS
         function drawRoundedRectangle(x, y, width, height, radius) {
             ctx.beginPath();
             ctx.moveTo(x + radius, y);
