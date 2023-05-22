@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ant Visualization</title>
+  <style>
+    #container {
+      position: relative;
+      width: 500px;
+      height: 500px;
+      border: 1px solid black;
+    }
+    .ant {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      border-radius: 50%;
+    }
+    .food {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: green;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ant Visualization</h1>
+  <div id="container"></div>
+  <button onclick="placeFood()">Place Food</button>
+  <script src="script.js"></script>
+</body>
+</html>
