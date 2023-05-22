@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Decision Tree</title>
+  <style>
+    #tree {
+      width: 400px;
+      height: 300px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <h1>Decision Tree</h1>
+  
+  <div id="tree"></div>
+  
+  <h2>Edit Nodes</h2>
+  <form id="nodeForm">
+    <label for="node">Node:</label>
+    <input type="text" id="node" name="node">
+    <br>
+    <label for="yes">Yes:</label>
+    <input type="text" id="yes" name="yes">
+    <br>
+    <label for="no">No:</label>
+    <input type="text" id="no" name="no">
+    <br>
+    <input type="submit" value="Add Node">
+  </form>
+  
+  <script src="decision_tree.js"></script>
+</body>
+</html>
