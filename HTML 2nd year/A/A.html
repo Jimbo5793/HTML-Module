@@ -64,14 +64,21 @@
         </div>
 
 
-        <div style="width:500px;margin-left:auto;margin-right:auto;">
-            <canvas id="pathfindcanvas"></canvas>
-            <button id="buttonRun" onclick="runAstar()">Run</button>
-            <button id="buttonRefreshAlg" onclick="refreshMap(true)">ClearPath</button>
-            <button id="buttonRefresh" onclick="refreshMap(false)">RefreshMap</button>
-        <div>
-
-        <script src="script.js"></script>
+        <div id="homediv">
+            <div id="functions">   
+                <div class="buttonhold">
+                    <h1 class="header">A* Search Visualiser | </h1>
+                    <h3 class="functionEl" id="startnode">Start Node</h3>
+                    <h3 class="functionEl" id="endnode">End Node</h3>
+                    <h3 class="functionEl" id="wallnode">Wall Node</h3>
+                    <h3 class="functionEl" id="visualise">Visualise</h3>
+                    <h3 class="functionEl" id="reset">Reset</h3>
+                </div>
+            </div>
+            <div id="grid" class="grid"></div>
+            <script src="script.js" async defer></script>
+        </div>
+        
 
     </div>
 

@@ -1,229 +1,476 @@
-		///////////LISTENERS
-        document.addEventListener('resize',resizeCanvas);
-        ////////////END
-        ////////VARIABLES
-        var myVar = setInterval(runAlways,75);
-        window.onload = init;
-        var c = document.getElementById("pathfindcanvas");
-        var ctx = c.getContext("2d");
-        /////////END
-        /////////CANVAS LISTENERS
-        c.addEventListener('mousemove',mouseMove);
-        c.addEventListener('mousedown',mouseDown);
-        c.addEventListener('mouseup',mouseUp);
-        /////////END
-        ////NODE
-    
-    
-        ////END
-        //////OBJECTS
-        var map;
-        var mapNodeTypes = {
-            empty : 0,
-            block : 1,
-            normalNode : 2,
-            startNode : 3,
-            endNode : 4
+//GLOBAL VARIABLES
+let grid;
+startnode = false;
+endnode = false;
+wallnode = false;
+lastStartHoverEl = "";
+lastEndHoverEl = "";
+resetOnClick = false;
+containsStartHover = true;
+
+//CUSTOMIZATION
+row = 13;
+col = 30;
+rateMultiplier = 2;
+rate = 30 / rateMultiplier;
+
+function App() {
+  createGrid();
+}
+
+function calcDistance(x1, y1, x2, y2) {
+  distance = Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
+  return distance;
+}
+
+function createGrid() {
+  grid = document.createElement("div");
+  grid.classList.add("grid");
+  document.body.firstElementChild.appendChild(grid);
+  for (x = 0; x < col; x++) {
+    line = document.createElement("div");
+    grid.appendChild(line);
+    for (y = 0; y < row; y++) {
+      gridEl = document.createElement("div");
+      gridEl.classList.add("gridEl");
+      gridEl.value = {
+        xcoord: x,
+        ycoord: y,
+        gx: Number.MAX_SAFE_INTEGER,
+        hx: 0,
+        fx: 0,
+      };
+      if (x == 0 || y == 0) {
+        gridEl.classList.add("edgenode");
+      }
+      if (y == row - 1 || x == col - 1) {
+        gridEl.classList.add("edgenode");
+      }
+      if (x == 0 && y == 0) {
+        gridEl.style.borderRadius = "1rem 0 0 0";
+      }
+      if (y == row - 1 && x == 0) {
+        gridEl.style.borderRadius = "0 0 0 1rem";
+      }
+      if (y == 0 && x == col - 1) {
+        gridEl.style.borderRadius = "0 1rem 0 0";
+      }
+      if (y == row - 1 && x == col - 1) {
+        gridEl.style.borderRadius = "0 0 1rem 0";
+      }
+      line.appendChild(gridEl);
+    }
+  }
+  grid.addEventListener("mouseenter", () => {
+    enterGridHandler();
+  });
+  grid.addEventListener("mouseleave", () => {
+    enterGridHandler();
+  });
+  return;
+}
+
+document.getElementById("reset").addEventListener("click", () => {
+  grid.remove();
+  createGrid();
+});
+
+document.getElementById("startnode").addEventListener("click", () => {
+  if (resetOnClick) {
+    grid.remove();
+    createGrid();
+    resetOnClick = false;
+  }
+  startNode();
+});
+
+document.getElementById("endnode").addEventListener("click", () => {
+  if (resetOnClick) {
+    grid.remove();
+    createGrid();
+    resetOnClick = false;
+  }
+  endNode();
+});
+
+document.getElementById("wallnode").addEventListener("click", () => {
+  if (resetOnClick) {
+    grid.remove();
+    createGrid();
+    resetOnClick = false;
+  }
+  wallNode();
+});
+
+document.getElementById("visualise").addEventListener("click", () => {
+  if (resetOnClick) {
+    grid.remove();
+    createGrid();
+    resetOnClick = false;
+  }
+  visualise();
+});
+
+function reset(row, col) {
+  grid.remove();
+  newGrid = document.createElement("div");
+  newGrid.classList.add("grid");
+  document.body.firstElementChild.appendChild(newGrid);
+  for (x = 0; x < col; x++) {
+    line = document.createElement("div");
+    newGrid.appendChild(line);
+    for (y = 0; y < row; y++) {
+      gridEl = document.createElement("div");
+      gridEl.classList.add("gridEl");
+      gridEl.value = {
+        xcoord: x,
+        ycoord: y,
+        gx: Number.MAX_SAFE_INTEGER,
+        hx: 0,
+        fx: 0,
+      };
+      if (x == 0 || y == 0) {
+        gridEl.classList.add("edgenode");
+      }
+      if (y == row - 1 || x == col - 1) {
+        gridEl.classList.add("edgenode");
+      }
+      if (x == 0 && y == 0) {
+        gridEl.style.borderRadius = "1rem 0 0 0";
+      }
+      if (y == row - 1 && x == 0) {
+        gridEl.style.borderRadius = "0 0 0 1rem";
+      }
+      if (y == 0 && x == col - 1) {
+        gridEl.style.borderRadius = "0 1rem 0 0";
+      }
+      if (y == row - 1 && x == col - 1) {
+        gridEl.style.borderRadius = "0 0 1rem 0";
+      }
+      line.appendChild(gridEl);
+    }
+  }
+}
+
+function startNode() {
+  if (!startnode) {
+    startnode = true;
+    endnode = false;
+    wallnode = false;
+  } else {
+    startnode = false;
+  }
+  if (lastStartHoverEl.firstElementChild) {
+    if (lastStartHoverEl.firstElementChild.classList.contains("start")) {
+      lastStartHoverEl.removeChild(lastStartHoverEl.firstElementChild);
+    }
+  }
+}
+
+function endNode() {
+  if (!endnode) {
+    endnode = true;
+    startnode = false;
+    wallnode = false;
+  } else {
+    endnode = false;
+  }
+  if (lastEndHoverEl.firstElementChild) {
+    if (lastEndHoverEl.firstElementChild.classList.contains("end")) {
+      lastEndHoverEl.removeChild(lastEndHoverEl.firstElementChild);
+    }
+  }
+}
+
+function wallNode() {
+  mouseClicked = false;
+  if (!wallnode) {
+    wallnode = true;
+    startnode = false;
+    endnode = false;
+  } else {
+    wallnode = false;
+  }
+}
+
+function enterGridHandler() {
+  gridList = document.getElementsByClassName("gridEl");
+  startdiv = document.createElement("div");
+  enddiv = document.createElement("div");
+  mouseClicked = false;
+
+  if (lastStartHoverEl.firstElementChild) {
+    if (lastStartHoverEl.firstElementChild.classList.contains("starthover")) {
+      lastStartHoverEl.removeChild(lastStartHoverEl.firstElementChild);
+    }
+  }
+  if (lastEndHoverEl.firstElementChild) {
+    if (lastEndHoverEl.firstElementChild.classList.contains("endhover")) {
+      lastEndHoverEl.removeChild(lastEndHoverEl.firstElementChild);
+    }
+  }
+  for (g of gridList) {
+    g.addEventListener("mouseenter", (event) => {
+      if (
+        startnode &&
+        !event.target.closest(".gridEl").classList.contains("edgenode")
+      ) {
+        startdiv.classList.add("starthover");
+        event.target.closest(".gridEl").appendChild(startdiv);
+        lastStartHoverEl = event.target.closest(".gridEl");
+      } else if (
+        endnode &&
+        !event.target.closest(".gridEl").classList.contains("edgenode")
+      ) {
+        enddiv.classList.add("endhover");
+        event.target.closest(".gridEl").appendChild(enddiv);
+        lastEndHoverEl = event.target.closest(".gridEl");
+      }
+    });
+    g.addEventListener("click", (event) => {
+      if (mouseClicked) {
+        mouseClicked = false;
+      } else {
+        mouseClicked = true;
+      }
+      if (startnode) {
+        startdiv.classList.remove("starthover");
+        if (event.target.closest(".gridEl").firstElementChild)
+          if (
+            event.target
+              .closest(".gridEl")
+              .firstElementChild.classList.contains("end")
+          ) {
+            event.target
+              .closest(".gridEl")
+              .removeChild(event.target.closest(".gridEl").firstElementChild);
+          }
+        if (event.target.closest(".gridEl").firstElementChild)
+          if (
+            event.target
+              .closest(".gridEl")
+              .firstElementChild.classList.contains("wallnode")
+          ) {
+            event.target
+              .closest(".gridEl")
+              .removeChild(
+                event.target.closest(".gridEl").classList.remove("wallnode")
+              );
+          }
+        event.target.closest(".gridEl").classList.remove("end");
+        event.target.closest(".gridEl").classList.remove("wallnode");
+        startdiv.classList.add("start");
+        event.target.closest(".gridEl").appendChild(startdiv);
+        startnode = false;
+      } else if (endnode) {
+        enddiv.classList.remove("endhover");
+        if (event.target.closest(".gridEl").firstElementChild)
+          if (
+            event.target
+              .closest(".gridEl")
+              .firstElementChild.classList.contains("start")
+          ) {
+            event.target
+              .closest(".gridEl")
+              .removeChild(event.target.closest(".gridEl").firstElementChild);
+          }
+        if (event.target.closest(".gridEl").firstElementChild)
+          if (
+            event.target
+              .closest(".gridEl")
+              .firstElementChild.classList.contains("wallnode")
+          ) {
+            event.target
+              .closest(".gridEl")
+              .removeChild(
+                event.target.closest(".gridEl").classList.remove("wallnode")
+              );
+          }
+        event.target.closest(".gridEl").classList.remove("start");
+        event.target.closest(".gridEl").classList.remove("wallnode");
+        startdiv.classList.add("end");
+        event.target.closest(".gridEl").appendChild(startdiv);
+        endnode = false;
+      }
+    });
+    g.addEventListener("mouseenter", (event) => {
+      if (wallnode && mouseClicked) {
+        if (event.target.closest(".gridEl").classList.contains("wallnode")) {
+          event.target.closest(".gridEl").classList.remove("wallnode");
+        } else {
+          event.target.closest(".gridEl").classList.add("wallnode");
         }
-        var mapColors = ["#4d4d4d","#4d4dFF","#4dFF4d","#FF4d4d","#000000"];//empty,block,normnal,start,end
-        var gameOpt = {
-            shapeSize : 25,
-            width : 1000,
-            height : 1000,
-            emptySize : 1,
-            backgroundColor : "#ffe0cc",
-            drawModeOn : false
-        }
-        var mouse = {
-            posx : 0,
-            posy : 0
-        }
-        var startNode,endNode;
-    
-        //////END
-        //////DRAW FUNCTIONS
-        function drawRoundedRectangle(x, y, width, height, radius) {
-            ctx.beginPath();
-            ctx.moveTo(x + radius, y);
-            ctx.lineTo(x + width - radius, y);
-            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-            ctx.lineTo(x + width, y + height - radius);
-            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-            ctx.lineTo(x + radius, y + height);
-            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-            ctx.lineTo(x, y + radius);
-            ctx.quadraticCurveTo(x, y, x + radius, y);
-            ctx.closePath();
-            ctx.fill();
-        }
-        function drawMap(){
-            var maxx = Math.floor(gameOpt.width/gameOpt.shapeSize);
-            var maxy = Math.floor(gameOpt.height/gameOpt.shapeSize);
-            for(var i = 0;i < maxx;i++)
-                for(var j = 0;j < maxy;j++) {
-                    var posx = i*gameOpt.shapeSize;
-                    var posy = j*gameOpt.shapeSize;
-                    ctx.fillStyle = mapColors[map[i][j]];
-                    drawRoundedRectangle(posx+gameOpt.emptySize,posy+gameOpt.emptySize,gameOpt.shapeSize-2*gameOpt.emptySize,gameOpt.shapeSize-2*gameOpt.emptySize,6);
-                }
-        }
-        function clearBackground(){
-            ctx.clearRect(0,0,c.width,c.height);
-            ctx.fillStyle = gameOpt.backgroundColor;
-            ctx.fillRect(0,0,gameOpt.width,gameOpt.height);
-        }
-        //////END
-        //////LISTENERS FUNCTIONS
-        function mouseMove(e){
-            var rect = c.getBoundingClientRect();
-            mouse.posx = e.clientX - rect.left;
-            mouse.posy = e.clientY - rect.top;
-            if(gameOpt.drawModeOn)
-                createBlockToMousePos();
-        }
-        function mouseDown(e){
-            if(e.button != 0)
-                return;
-            gameOpt.drawModeOn = true;
-            createBlockToMousePos();
-        }
-        function mouseUp(e){
-            if(e.button != 0)
-                return;
-            gameOpt.drawModeOn = false;
-        }
-    
-        function resizeCanvas(){
-            c.width = gameOpt.width;
-            c.height = gameOpt.height;
-            }
-        //////END
-        //////GAME FUNCTIONS
-        function calculateFcost(start,end,node){
-            var gcost;//distance from start 
-            var hcost;//distance from end
-            gcost = Math.abs(node.x - start.x) + Math.abs(node.y - start.y);
-            hcost = Math.abs(node.x - end.x) + Math.abs(node.y-end.y);
-            node.fcost = start.fcost+hcost;
-            return node;
-        }
-        function getNeighbor(node){
-            var nodes = [];
-            var maxx = Math.floor(gameOpt.width/gameOpt.shapeSize);
-            var maxy = Math.floor(gameOpt.height/gameOpt.shapeSize);
-            if(node.x+1 < maxx && map[node.x+1][node.y] != mapNodeTypes.block)
-                nodes.push({x : node.x+1,y : node.y,fcost : 0,parentI : 0});
-            if(node.y+1 < maxy && map[node.x][node.y+1] != mapNodeTypes.block)
-                nodes.push({x : node.x,y : node.y + 1,fcost : 0,parentI : 0});
-            if(node.x-1 >= 0 && map[node.x-1][node.y] != mapNodeTypes.block)
-                nodes.push({x : node.x-1,y : node.y,fcost : 0,parentI : 0});
-            if(node.y-1 >= 0 && map[node.x][node.y-1] != mapNodeTypes.block)
-                nodes.push({x : node.x,y : node.y-1,fcost : 0,parentI : 0});
-            return nodes;
-        }
-        function searchInNodeList(nodeList,node){
-            var i = 0;
-            var finded = -1;
-            var size = nodeList.length;
-            while(i < size && finded < 0){
-                if(nodeList[i].x == node.x && nodeList[i].y == node.y)
-                    finded = i;
-            i++;
-        }
-        return finded;
-        }
-        function getNodeWithMinFcost(nodeList){
-            var min = 0;
-            var minindex = 0;
-            min = nodeList[0].fcost;
-            for(var i = 1;i < nodeList.length;i++){
-                if(nodeList[i].fcost < min){
-                    min = nodeList[i].fcost;
-                    minindex = i;
-                }
-            }
-        return minindex;
-        }
-        function nodeMatch(node1,node2){
-            return (node1.x == node2.x && node1.y == node2.y) ? true : false;
-        }
-        function runAstar(){
-            var open = [];
-            var closed = [];
-            var neighbors = [];
-            startNode.fcost = 0;
-            open.push(startNode);
-            var searchOpen;
-            while(open.length > 0) {
-                cIndex = getNodeWithMinFcost(open);
-                if(nodeMatch(open[cIndex],endNode)){
-                    closed.push(open[cIndex]);
-                    break;
-                }
-                neighbors = getNeighbor(open[cIndex]);
-                closed.push(open[cIndex]);
-                for(var i = 0;i < neighbors.length;i++){
-                    if(searchInNodeList(closed,neighbors[i]) == -1){
-                        neighbors[i] = calculateFcost(open[cIndex],endNode,neighbors[i]);
-                        searchOpen = searchInNodeList(open,neighbors[i]); 
-                        neighbors[i].parentI = closed.length-1;
-                        if(searchOpen == -1)
-                            open.push(neighbors[i]);
-                        else if(open[searchOpen].fcost > neighbors[i].fcost)
-                            open[searchOpen].fcost = neighbors[i].fcost;
-                    }
-                }
-                open.splice(cIndex,1);
-            }
-            var i = closed[closed.length-1].parentI;
-            while(!nodeMatch(closed[i],startNode)){
-                map[closed[i].x][closed[i].y] = mapNodeTypes.normalNode;
-                i = closed[i].parentI;
-            }
-            document.getElementById("Text").innerHTML = str;
-        }
-        function createBlockToMousePos(){
-            var x = Math.floor(mouse.posx/gameOpt.shapeSize);
-            var y = Math.floor(mouse.posy/gameOpt.shapeSize)
-            if(map[x][y] == mapNodeTypes.empty)
-                map[x][y] = mapNodeTypes.block;
-        }
-        function initMap(){
-            map = new Array();
-            var maxX = Math.floor(gameOpt.width/gameOpt.shapeSize);
-            var maxY = Math.floor(gameOpt.width/gameOpt.shapeSize);
-            for(var i = 0;i < maxX;i++){
-                map[i] = new Array();
-                for(var j = 0;j < maxY;j++)
-                    map[i][j] = 0;
-            }
-            startNode = {x : 0,y : 0,fcost : 0,parentI : -1};
-            endNode = {x : maxX-1,y : maxY-1,fcost : 0,parentI : -1};
-            map[startNode.x][startNode.y] = mapNodeTypes.startNode;
-            map[endNode.x][endNode.y] = mapNodeTypes.endNode;
-        }
-        //END
-        /////MAIN FUNCTIONS
-        function refreshMap(justPath){
-            if(justPath){
-                var maxX = Math.floor(gameOpt.width/gameOpt.shapeSize);
-                var maxY = Math.floor(gameOpt.width/gameOpt.shapeSize);
-                    for(var i = 0;i < maxX;i++)
-                        for(var j = 0;j < maxY;j++)
-                            if(map[i][j] == mapNodeTypes.normalNode)
-                                map[i][j] = mapNodeTypes.empty;
-            }
-            else
-                init();
-        }
-        function init(){
-            resizeCanvas();
-            initMap();
-            runAlways();
-        }
-        function runAlways(){
-            clearBackground();
-            drawMap();
-        }
-        /////END
-    
+        if (event.target.closest(".gridEl").firstElementChild)
+          if (
+            event.target
+              .closest(".gridEl")
+              .firstElementChild.classList.contains("start") ||
+            event.target
+              .closest(".gridEl")
+              .firstElementChild.classList.contains("end")
+          ) {
+            event.target
+              .closest(".gridEl")
+              .removeChild(event.target.closest(".gridEl").firstElementChild);
+          }
+      }
+    });
+  }
+}
+
+function visualise() {
+  startnode = false;
+  endnode = false;
+  wallnode = false;
+  startEl = document.querySelector(".start").parentElement;
+  endEl = document.querySelector(".end").parentElement;
+  for (g of gridList) {
+    g.value.gx = calcDistance(
+      g.value.xcoord,
+      g.value.ycoord,
+      startEl.value.xcoord,
+      startEl.value.ycoord
+    );
+    g.value.hx = calcDistance(
+      g.value.xcoord,
+      g.value.ycoord,
+      endEl.value.xcoord,
+      endEl.value.ycoord
+    );
+    g.value.fx = g.value.hx + g.value.fx;
+  }
+  startEl.value.gx = 0;
+  endEl.value.gx = calcDistance(
+    endEl.value.xcoord,
+    endEl.value.ycoord,
+    startEl.value.xcoord,
+    startEl.value.ycoord
+  );
+
+  algorithm(startEl, endEl);
+}
+
+function findEl(x, y) {
+  for (e of gridList) {
+    if (e.value.xcoord == x && e.value.ycoord == y) {
+      return e;
+    }
+  }
+}
+
+function findLowestFx(arr) {
+  lowest = Number.MAX_SAFE_INTEGER;
+  corr = "";
+  for (a of arr) {
+    if (a.value.fx < lowest) {
+      lowest = a.value.fx;
+      corr = a;
+    }
+  }
+  return corr;
+}
+
+Array.prototype.remove = function () {
+  var what,
+    a = arguments,
+    L = a.length,
+    ax;
+  while (L && this.length) {
+    what = a[--L];
+    while ((ax = this.indexOf(what)) !== -1) {
+      this.splice(ax, 1);
+    }
+  }
+  return this;
+};
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function algorithm(start, end) {
+  colormultiplier = 255;
+  openList = [];
+  closedList = [];
+  path = [];
+  openList.push(start);
+  found = false;
+  while (openList[0]) {
+    current = findLowestFx(openList);
+    openList.remove(current);
+    closedList.push(current);
+    current.classList.add("explored");
+    if (
+      current.value.xcoord == end.value.xcoord &&
+      current.value.ycoord == end.value.ycoord
+    ) {
+      start.classList.add("path");
+      start.firstElementChild.classList.add("spin");
+      setTimeout(() => {
+        start.firstElementChild.classList.remove("spin");
+      }, 1000);
+      end.classList.add("path");
+      c = current;
+      path = [];
+      found = true;
+      while (c.value.parent) {
+        path.push(c);
+        c = c.value.parent;
+      }
+      for (p of path.reverse()) {
+        await sleep(50);
+        p.classList.add("path");
+      }
+      end.firstElementChild.classList.add("spin");
+      setTimeout(() => {
+        end.firstElementChild.classList.remove("spin");
+      }, 1000);
+      resetOnClick = true;
+      return;
+    }
+    left = findEl(current.value.xcoord - 1, current.value.ycoord + 0);
+    right = findEl(current.value.xcoord + 1, current.value.ycoord + 0);
+    bottom = findEl(current.value.xcoord + 0, current.value.ycoord + 1);
+    above = findEl(current.value.xcoord + 0, current.value.ycoord - 1);
+    adjacents = [
+      left,
+      right,
+      bottom,
+      above,
+    ];
+    for (a of adjacents) {
+      if (
+        a.classList.contains("edgenode") ||
+        a.classList.contains("wallnode") ||
+        closedList.includes(a)
+      ) {
+        continue;
+      }
+      best = false;
+      gScore = current.value.gx + 1;
+      if (!openList.includes(a)) {
+        best = true;
+        await sleep(rate);
+        a.classList.add("explored");
+        colormultiplier -= 1;
+        openList.push(a);
+      } else if (gScore <= a.value.gx) {
+        best = true;
+      }
+      if (best) {
+        a.value.parent = current;
+        a.value.fx -= a.value.gx;
+        a.value.gx = gScore;
+        a.value.fx += a.value.gx;
+      }
+    }
+  }
+  if (!found) {
+    await sleep(50);
+    alert("No available paths");
+    resetOnClick = true;
+    return;
+  }
+}
+
+App();
